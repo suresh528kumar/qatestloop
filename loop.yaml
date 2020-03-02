@@ -1,0 +1,49 @@
+format_version: 3
+pipelines:
+  qa-test-runtest-pipeline:
+    group: QA-TEST-GROUP
+    label_template: ${COUNT}
+    lock_behavior: none
+    display_order: -1
+    materials:
+      downstream:
+        git: git@bitbucket.org:centraltechnology/powerbuy-headless.git
+        shallow_clone: false
+        auto_update: true
+        branch: master
+      upstream:
+        ignore_for_scheduling: false
+        pipeline: qa-test-imagebuild-pipeline
+        stage: qa-test-imagebuild-stage
+    stages:
+    - qa-test-runtest-stage:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          qa-test-runtest-job:
+            timeout: 0
+            elastic_profile_id: demo-app1
+            tasks:
+            - fetch:
+                options:
+                  EnvironmentVariablePrefix: ''
+                artifact_id: qatestartifact
+                pipeline: qa-test-imagebuild-pipeline
+                stage: qa-test-imagebuild-stage
+                job: qa-test-imagebuild-task
+                artifact_origin: external
+                run_if: passed
+            - exec:
+                arguments:
+                - -c
+                - docker run --rm -v $PWD:/robot -i suresh528kumar/qatest:2 --name
+                  "pwb-test" --variable ENV:staging --variable DEVICE_PLATFORM:web
+                  {{ item }}
+                command: /bin/bash
+                loop:
+                  - testcases/homepage/homepage.robot
+                run_if: passed
