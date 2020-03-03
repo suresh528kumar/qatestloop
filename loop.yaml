@@ -26,22 +26,24 @@ pipelines:
         jobs:
           qa-test-runtest-job:
             timeout: 0
+            loop:
+              - testrailid:C106767         
             elastic_profile_id: demo-app1
             tasks:
             - fetch:
-                options:
-                  EnvironmentVariablePrefix: ''
-                artifact_id: qatestartifact
+                is_file: false
+                source: qatestartifact
+                destination: ''
                 pipeline: qa-test-imagebuild-pipeline
                 stage: qa-test-imagebuild-stage
                 job: qa-test-imagebuild-task
-                artifact_origin: external
+                artifact_origin: gocd
                 run_if: passed
             - exec:
                 arguments:
                 - -c
                 - docker run --rm -v $PWD:/robot -i suresh528kumar/qatest:2 --name
                   "pwb-test" --variable ENV:staging --variable DEVICE_PLATFORM:web
-                  testcases/homepage/homepage.robot
+                  --include testrailid:C106767 testcases/homepage/homepage.robot
                 command: /bin/bash
                 run_if: passed
