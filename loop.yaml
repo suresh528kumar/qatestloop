@@ -44,6 +44,6 @@ pipelines:
                 - -c
                 - docker run --rm -v $PWD:/robot -i suresh528kumar/qatest:2 --name
                   "pwb-test" --variable ENV:staging --variable DEVICE_PLATFORM:web
-                  --include testrailid:C106767 testcases/homepage/homepage.robot
+                  --include {{ item }} testcases/homepage/homepage.robot
                 command: /bin/bash
                 run_if: passed
