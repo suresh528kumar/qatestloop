@@ -13,7 +13,7 @@ pipelines:
         branch: master
       upstream:
         ignore_for_scheduling: false
-        pipeline: qa-buildimg-pipeline-new
+        pipeline: qa-buildimg-pipeline
         stage: qa-buildimg-stage
     stages:
     - qa-testrun-stage:
