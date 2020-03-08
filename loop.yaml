@@ -1,18 +1,18 @@
 format_version: 3
 pipelines:
   qa-testrun-pipeline-new:
-    group: QA-TEST-GROUP
+    group: sample
     label_template: ${COUNT}
     lock_behavior: none
     display_order: -1
     materials:
-      downstream:
-        git: https://github.com/gocd-demo/node-bulletin-board.git
-        shallow_clone: false
+      git:
+        git: git@bitbucket.org:centraltechnology/powerbuy-headless.git
+        shallow_clone: true
         auto_update: true
         branch: master
     stages:
-    - qa-testrun-stage:
+    - qa-testrun-stage-new:
         fetch_materials: true
         keep_artifacts: false
         clean_workspace: false
@@ -20,15 +20,12 @@ pipelines:
           type: success
           allow_only_on_success: false
         jobs:
-          qa-testrun-job:
+          qa-testrun-job-new:
             timeout: 0
             environment_variables:
               PWD: /go/pipelines/qatestnew-pipeline
+              TESTDATA: 12345
             elastic_profile_id: demo-app1
-            artifacts:
-            - test:
-                source: testcases/homepage/
-                destination: testoutput
             tasks:
             - exec:
                 arguments:
