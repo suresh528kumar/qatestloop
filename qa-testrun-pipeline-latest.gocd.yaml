@@ -29,10 +29,6 @@ pipelines:
             environment_variables:
               PWD: /go/pipelines/qatestnew-pipeline
             elastic_profile_id: demo-app1
-            artifacts:
-            - test:
-                source: testcases/homepage/
-                destination: testoutput
             tasks:
             - fetch:
                 options:
