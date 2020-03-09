@@ -28,9 +28,7 @@ pipelines:
             timeout: 0
             environment_variables:
               PWD: /go/pipelines/qatestnew-pipeline
-            elastic_profile_id: demo-app1
-            with_items:
-              - C138480         
+            elastic_profile_id: demo-app1         
             artifacts:
             - test:
                 source: testcases/homepage/
@@ -46,6 +44,8 @@ pipelines:
                 artifact_origin: external
                 run_if: passed
             - exec:
+                with_items:
+                - C138480
                 arguments:
                 - -c
                 - docker run --name qacont -v $PWD:/robot -i suresh528kumar/qatest:4
