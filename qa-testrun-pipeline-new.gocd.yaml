@@ -50,4 +50,4 @@ pipelines:
                   --name "pwb-test" --variable ENV:staging --variable DEVICE_PLATFORM:web
                   --include testrailid:C138480 --outputdir Report testcases/homepage/homepage.robot
                 command: /bin/bash
-                run_if: passed
+                run_if: failed
