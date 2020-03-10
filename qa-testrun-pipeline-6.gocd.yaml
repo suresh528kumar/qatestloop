@@ -1,0 +1,46 @@
+format_version: 3
+pipelines:
+  qa-testrun-pipeline-6:
+    group: QA-TEST-GROUP
+    label_template: 
+    lock_behavior: none
+    display_order: -1
+    materials:
+      downstream:
+        git: git@bitbucket.org:centraltechnology/powerbuy-headless.git
+        shallow_clone: false
+        auto_update: true
+        branch: master
+      upstream:
+        ignore_for_scheduling: false
+        pipeline: qa-buildimg-pipeline
+        stage: qa-buildimg-stage
+    stages:
+    - qa-testrun-stage:
+        fetch_materials: true
+        keep_artifacts: false
+        clean_workspace: false
+        approval:
+          type: success
+          allow_only_on_success: false
+        jobs:
+          qa-testrun-job:
+            timeout: 0
+            environment_variables:
+              PWD: /go/pipelines/qatestnew-pipeline
+            elastic_profile_id: demo-app1
+            artifacts:
+            - test:
+                source: testcases/homepage/
+                destination: testoutput
+            tasks:
+            - exec:
+                arguments:
+                - -c
+                - docker run --name qacont -v $PWD:/robot -i suresh528kumar/qatest:5
+                  --name "pwb-test" --variable ENV:staging --variable DEVICE_PLATFORM:web
+                  --include testrailid:C165499 --outputdir Report testcases/homepage/homepage.robot  
+                  && export TESTDATA=$(docker inspect --format="{{.Id}}" qacont) 
+                  && echo The ContainerID is  && docker cp $TESTDATA:/robot/Report /home/go/.ssh/devops
+                command: /bin/bash
+                run_if: passed
