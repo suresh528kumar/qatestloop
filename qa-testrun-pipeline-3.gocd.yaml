@@ -34,6 +34,15 @@ pipelines:
                 source: testcases/homepage/
                 destination: testoutput
             tasks:
+            - fetch:
+                options:
+                  EnvironmentVariablePrefix: ''
+                artifact_id: qaartifact
+                pipeline: qa-buildimg-pipeline
+                stage: qa-buildimg-stage
+                job: qa-buildimg-job
+                artifact_origin: external
+                run_if: passed
             - exec:
                 arguments:
                 - -c
