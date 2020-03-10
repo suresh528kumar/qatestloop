@@ -1,6 +1,6 @@
 format_version: 3
 pipelines:
-  qa-testrun-pipeline-latest:
+  qa-testrun-pipeline-3:
     group: QA-TEST-GROUP
     label_template: 
     lock_behavior: none
@@ -29,6 +29,10 @@ pipelines:
             environment_variables:
               PWD: /go/pipelines/qatestnew-pipeline
             elastic_profile_id: demo-app1
+            artifacts:
+            - test:
+                source: testcases/homepage/
+                destination: testoutput
             tasks:
             - fetch:
                 options:
@@ -42,8 +46,10 @@ pipelines:
             - exec:
                 arguments:
                 - -c
-                - docker run --name qacont -v /Users/suresh/.ssh/DynamicPipeLines:/robot -i suresh528kumar/qatest:5
-                  --name "pwb-test1" --variable ENV:staging --variable DEVICE_PLATFORM:web
-                  --include testrailid:C138480 --outputdir Report testcases/homepage/homepage.robot
+                - docker run --name qacont -v $PWD:/robot -i suresh528kumar/qatest:4
+                  --name "pwb-test" --variable ENV:staging --variable DEVICE_PLATFORM:web
+                  --include testrailid:C165499 --outputdir Report testcases/homepage/homepage.robot  
+                  && export TESTDATA=$(docker inspect --format="{{.Id}}" qacont) 
+                  && echo The ContainerID is  && docker cp $TESTDATA:/robot/Report /home/go/.ssh/devops
                 command: /bin/bash
                 run_if: passed
