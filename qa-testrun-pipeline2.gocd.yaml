@@ -42,7 +42,7 @@ pipelines:
                 stage: qa-buildimg-stage
                 job: qa-buildimg-job
                 artifact_origin: external
-                run_if: passed
+                run_if: any
             - exec:
                 arguments:
                 - -c
@@ -58,4 +58,4 @@ pipelines:
                   The ContainerID is $TESTDATA && docker cp $TESTDATA:/robot/Report
                   /home/go/.ssh/devops
                 command: /bin/bash
-                run_if: passed
+                run_if: any
