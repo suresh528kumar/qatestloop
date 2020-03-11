@@ -47,7 +47,7 @@ pipelines:
                 arguments:
                 - -c
                 - docker run --name qacont -v $PWD:/robot -i suresh528kumar/qatest:1
-                  --name "pwb-test" --variable ENV:staging --variable DEVICE_PLATFORM:web
+                  --name "pwb-test" --no-sandbox --disable-dev-shm-usage --variable ENV:staging --variable DEVICE_PLATFORM:web
                   --include testrailid:C138480 --outputdir Report testcases/homepage/homepage.robot
                 command: /bin/bash
                 run_if: passed
