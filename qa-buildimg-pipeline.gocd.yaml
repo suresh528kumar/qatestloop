@@ -1,6 +1,6 @@
 format_version: 3
 pipelines:
-  qa-buildimg-pipeline1:
+  qa-buildimg-pipeline:
     group: QA-TEST-GROUP
     label_template: ${COUNT}
     lock_behavior: none
