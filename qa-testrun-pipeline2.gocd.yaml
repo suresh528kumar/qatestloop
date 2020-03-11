@@ -46,7 +46,7 @@ pipelines:
             - exec:
                 arguments:
                 - -c
-                - docker run --name qacont -v $PWD:/robot -i suresh528kumar/qatest:1
+                - docker run --name qacont1 -v $PWD:/robot -i suresh528kumar/qatest:1
                   --name "pwb-testcase" --variable ENV:staging --variable DEVICE_PLATFORM:web
                   --include testrailid:C111535 --outputdir Report testcases/homepage/homepage.robot
                 command: /bin/bash
@@ -54,7 +54,7 @@ pipelines:
             - exec:
                 arguments:
                 - -c
-                - export TESTDATA=$(docker inspect --format="{{.Id}}" qacont) && echo
+                - export TESTDATA=$(docker inspect --format="{{.Id}}" qacont1) && echo
                   The ContainerID is $TESTDATA && docker cp $TESTDATA:/robot/Report
                   /home/go/.ssh/devops
                 command: /bin/bash
