@@ -56,6 +56,6 @@ pipelines:
                 - -c
                 - export TESTDATA=$(docker inspect --format="{{.Id}}" qacont1) && echo
                   The ContainerID is $TESTDATA && docker cp $TESTDATA:/robot/Report
-                  /home/go/.ssh/devops
+                  /home/go/.ssh/devops3
                 command: /bin/bash
                 run_if: any
