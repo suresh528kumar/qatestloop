@@ -28,7 +28,7 @@ pipelines:
             timeout: 0
             environment_variables:
               PWD: /go/pipelines/qatestnew-pipeline
-            elastic_profile_id: demo-app1
+            elastic_profile_id: demo-app3
             artifacts:
             - test:
                 source: testcases/homepage/
